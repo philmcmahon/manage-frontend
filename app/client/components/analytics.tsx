@@ -34,15 +34,16 @@ export const trackEvent = ({
     );
   }
   if (window.guardian && window.guardian.ophan) {
-    const actionSuffix =
-      window.guardian && window.guardian.INTCMP
-        ? ` | ${window.guardian.INTCMP}`
-        : "";
     window.guardian.ophan.record({
       componentEvent: {
-        component: `MMA_${eventCategory.toUpperCase()}`,
-        action: `MMA_${eventAction.toUpperCase()}${actionSuffix}`,
-        value: eventLabel
+        component: {
+          componentType: eventCategory.toUpperCase(),
+          products: eventLabel ? [eventLabel] : undefined,
+          campaignCode: window.guardian.INTCMP
+        },
+        action: "ANSWER",
+        value: eventAction.toUpperCase()
+        // TODO value: eventValue !== undefined && `${eventValue}`
       }
     });
   }
